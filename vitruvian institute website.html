@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitruvian Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A3A5C;
+    --forest: #2C5F4A;
+    --gold: #C9A84C;
+    --gold-light: #e2c47a;
+    --cream: #F8F5EF;
+    --white: #ffffff;
+    --muted: #6B7B8D;
+    --text: #1a1a18;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5rem;
+    background: rgba(248, 245, 239, 0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(26, 58, 92, 0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 600;
+    color: var(--navy); letter-spacing: 0.03em; text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; align-items: center; list-style: none; }
+
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  .nav-cta { background: var(--navy) !important; color: var(--cream) !important; padding: 0.55rem 1.4rem; border-radius: 2px; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 5rem 6rem;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 40%, rgba(44,95,74,0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% 90%, rgba(201,168,76,0.07) 0%, transparent 50%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.1s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 7.5vw, 7.5rem);
+    font-weight: 300; line-height: 1.0;
+    color: var(--navy); max-width: 820px;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.25s;
+  }
+
+  .hero-title em { font-style: italic; color: var(--forest); }
+
+  .hero-sub {
+    margin-top: 2rem; font-size: 1.05rem; font-weight: 300;
+    color: var(--muted); max-width: 480px; line-height: 1.75;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .hero-actions {
+    margin-top: 3rem; display: flex; gap: 1.2rem; align-items: center;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.55s;
+  }
+
+  .btn-primary {
+    background: var(--navy); color: var(--cream);
+    padding: 0.95rem 2.5rem; border: none; border-radius: 2px;
+    font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+  }
+
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--navy); font-size: 0.85rem; font-weight: 400;
+    text-decoration: none; letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(26,58,92,0.35); padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--forest); border-color: var(--forest); }
+
+  /* STREAK BANNER */
+  .streak-banner {
+    background: var(--navy); padding: 5rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+
+  .streak-label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1rem; display: block;
+  }
+
+  .streak-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300; color: var(--cream); line-height: 1.2;
+  }
+
+  .streak-title em { font-style: italic; color: var(--gold-light); }
+
+  .streak-body {
+    margin-top: 1.2rem; font-size: 0.88rem;
+    color: rgba(248,245,239,0.5); font-weight: 300; line-height: 1.7; max-width: 340px;
+  }
+
+  .streak-right { display: flex; flex-direction: column; gap: 1rem; }
+
+  .streak-card {
+    background: rgba(248,245,239,0.06);
+    border: 1px solid rgba(248,245,239,0.1);
+    border-radius: 4px; padding: 1.2rem 1.5rem;
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+
+  .streak-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+  .streak-name {
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--cream); margin-bottom: 0.4rem; letter-spacing: 0.02em;
+  }
+
+  .streak-bar-wrap {
+    height: 4px; background: rgba(248,245,239,0.1);
+    border-radius: 2px; width: 200px; overflow: hidden;
+  }
+
+  .streak-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1.4s ease;
+  }
+
+  .streak-days {
+    margin-top: 0.35rem; font-size: 0.7rem;
+    color: var(--gold-light); letter-spacing: 0.07em;
+  }
+
+  /* SECTORS */
+  .sectors { padding: 8rem 5rem; max-width: 1300px; margin: 0 auto; }
+
+  .section-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 4rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 0.8rem; display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    font-weight: 300; color: var(--navy); line-height: 1.15;
+  }
+
+  .section-sub {
+    font-size: 0.88rem; line-height: 1.7; color: var(--muted);
+    font-weight: 300; max-width: 300px; text-align: right;
+  }
+
+  .sectors-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: rgba(26,58,92,0.08);
+    border: 1px solid rgba(26,58,92,0.08);
+  }
+
+  .sector-card {
+    background: var(--white); padding: 2.5rem 2rem;
+    transition: background 0.25s; position: relative; overflow: hidden;
+  }
+
+  .sector-card:hover { background: var(--cream); }
+
+  .sector-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold); transform: scaleX(0);
+    transition: transform 0.3s; transform-origin: left;
+  }
+
+  .sector-card:hover::before { transform: scaleX(1); }
+
+  .sector-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
+
+  .sector-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400;
+    color: var(--navy); margin-bottom: 0.6rem;
+  }
+
+  .sector-desc { font-size: 0.82rem; line-height: 1.7; color: var(--muted); font-weight: 300; }
+
+  .sector-tag {
+    margin-top: 1.2rem; display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--forest); font-weight: 600;
+  }
+
+  .dot { width: 5px; height: 5px; background: var(--forest); border-radius: 50%; }
+
+  /* CREDENTIALS */
+  .credentials { background: var(--forest); padding: 8rem 5rem; }
+
+  .credentials-inner { max-width: 1300px; margin: 0 auto; }
+
+  .credentials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; margin-top: 4rem;
+  }
+
+  .credential-card {
+    border: 1px solid rgba(248,245,239,0.15);
+    padding: 2.5rem 2rem; border-radius: 2px;
+    transition: border-color 0.3s, transform 0.3s;
+    background: rgba(248,245,239,0.04);
+  }
+
+  .credential-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+
+  .credential-medal { font-size: 2.5rem; margin-bottom: 1.2rem; display: block; }
+
+  .credential-level {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem; font-weight: 400; color: var(--cream); margin-bottom: 0.4rem;
+  }
+
+  .credential-sub {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem; font-weight: 500;
+  }
+
+  .credential-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(248,245,239,0.55); font-weight: 300; }
+
+  /* FELLOWSHIPS */
+  .fellowships { padding: 8rem 5rem; max-width: 1300px; margin: 0 auto; }
+
+  .fellowship-pills { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 3rem; }
+
+  .pill {
+    background: var(--white); border: 1px solid rgba(26,58,92,0.12);
+    color: var(--navy); padding: 0.7rem 1.5rem; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 400; letter-spacing: 0.03em;
+    transition: all 0.2s; cursor: default;
+  }
+
+  .pill:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+
+  /* WAITLIST */
+  .waitlist {
+    background: var(--navy); padding: 8rem 5rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+
+  .waitlist::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(201,168,76,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .waitlist-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 300; color: var(--cream); line-height: 1.1; margin-bottom: 1.2rem;
+  }
+
+  .waitlist-title em { font-style: italic; color: var(--gold-light); }
+
+  .waitlist-sub {
+    font-size: 0.95rem; color: rgba(248,245,239,0.5);
+    font-weight: 300; margin-bottom: 2.5rem;
+    max-width: 380px; margin-left: auto; margin-right: auto; line-height: 1.7;
+  }
+
+  .waitlist-form { display: flex; max-width: 440px; margin: 0 auto 1rem; }
+
+  .waitlist-input {
+    flex: 1; padding: 1rem 1.5rem;
+    border: 1px solid rgba(248,245,239,0.18);
+    background: rgba(248,245,239,0.07);
+    color: var(--cream); font-family: 'Jost', sans-serif;
+    font-size: 0.88rem; outline: none;
+    border-radius: 2px 0 0 2px; transition: border-color 0.2s; font-weight: 300;
+  }
+
+  .waitlist-input::placeholder { color: rgba(248,245,239,0.3); }
+  .waitlist-input:focus { border-color: var(--gold); }
+
+  .waitlist-btn {
+    background: var(--gold); color: var(--navy);
+    padding: 1rem 1.8rem; border: none;
+    font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; border-radius: 0 2px 2px 0;
+    transition: background 0.2s; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .waitlist-btn:hover { background: var(--gold-light); }
+
+  .waitlist-note { font-size: 0.75rem; color: rgba(248,245,239,0.3); letter-spacing: 0.05em; }
+
+  .waitlist-success {
+    display: none; font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-style: italic; color: var(--gold-light); margin-top: 1rem;
+  }
+
+  footer {
+    background: #111; padding: 2.5rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: rgba(248,245,239,0.6); font-weight: 400; letter-spacing: 0.05em;
+  }
+
+  .footer-tagline { font-size: 0.75rem; color: rgba(248,245,239,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+
+  .footer-links a {
+    font-size: 0.75rem; color: rgba(248,245,239,0.3);
+    text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(248,245,239,0.7); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .d1 { transition-delay: 0.1s; }
+  .d2 { transition-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Vitruvian Institute</a>
+  <ul class="nav-links">
+    <li><a href="#sectors">Curriculum</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#fellowships">Fellowships</a></li>
+    <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">Free · Self-Directed · Ages 13–25</p>
+  <h1 class="hero-title">Become your<br><em>ideal self.</em></h1>
+  <p class="hero-sub">The whole-person education schools don't teach — free, self-directed, and credentialed for the world ahead.</p>
+  <div class="hero-actions">
+    <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+    <a href="#sectors" class="btn-ghost">See the curriculum →</a>
+  </div>
+</section>
+
+<div class="streak-banner">
+  <div class="reveal">
+    <span class="streak-label">Daily Practice</span>
+    <h2 class="streak-title">Build the habits<br>that build <em>you.</em></h2>
+    <p class="streak-body">Physical and mental wellness streaks are at the heart of Vitruvian. Small daily commitments compound into the person you want to become.</p>
+  </div>
+  <div class="streak-right reveal d2">
+    <div class="streak-card">
+      <span class="streak-icon">🏃</span>
+      <div>
+        <p class="streak-name">Movement — 21 day streak</p>
+        <div class="streak-bar-wrap"><div class="streak-bar" data-width="70%"></div></div>
+        <p class="streak-days">21 of 30 days · Physical Sector</p>
+      </div>
+    </div>
+    <div class="streak-card">
+      <span class="streak-icon">🧘</span>
+      <div>
+        <p class="streak-name">Mindfulness — 14 day streak</p>
+        <div class="streak-bar-wrap"><div class="streak-bar" data-width="47%"></div></div>
+        <p class="streak-days">14 of 30 days · Mental Sector</p>
+      </div>
+    </div>
+    <div class="streak-card">
+      <span class="streak-icon">📖</span>
+      <div>
+        <p class="streak-name">Daily Reading — 7 day streak</p>
+        <div class="streak-bar-wrap"><div class="streak-bar" data-width="23%"></div></div>
+        <p class="streak-days">7 of 30 days · Intellectual Sector</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="sectors" id="sectors">
+  <div class="section-header reveal">
+    <div>
+      <span class="section-eyebrow">The Curriculum</span>
+      <h2 class="section-title">Six dimensions<br>of a whole life</h2>
+    </div>
+    <p class="section-sub">Self-paced lessons, real projects, AI + human verification in every sector.</p>
+  </div>
+  <div class="sectors-grid">
+    <div class="sector-card reveal">
+      <span class="sector-icon">🏃</span>
+      <h3 class="sector-name">Physical</h3>
+      <p class="sector-desc">Movement, sleep, nutrition. Build daily streaks and sustainable wellness routines.</p>
+      <span class="sector-tag"><span class="dot"></span>Streaks + Projects</span>
+    </div>
+    <div class="sector-card reveal d1">
+      <span class="sector-icon">🧠</span>
+      <h3 class="sector-name">Mental</h3>
+      <p class="sector-desc">Growth mindset, resilience, mindfulness, emotional intelligence. Build your inner architecture.</p>
+      <span class="sector-tag"><span class="dot"></span>Streaks + Projects</span>
+    </div>
+    <div class="sector-card reveal d2">
+      <span class="sector-icon">📚</span>
+      <h3 class="sector-name">Intellectual</h3>
+      <p class="sector-desc">How to learn, how to think in the AI age, philosophy, and expertise.</p>
+      <span class="sector-tag"><span class="dot"></span>Lessons + Projects</span>
+    </div>
+    <div class="sector-card reveal">
+      <span class="sector-icon">🤝</span>
+      <h3 class="sector-name">Social</h3>
+      <p class="sector-desc">Relationships, community, and service. Start a Vitruvian Ambassador Club.</p>
+      <span class="sector-tag"><span class="dot"></span>Community Projects</span>
+    </div>
+    <div class="sector-card reveal d1">
+      <span class="sector-icon">💼</span>
+      <h3 class="sector-name">Professional</h3>
+      <p class="sector-desc">Career, purpose, and values in work. Build real, verified projects.</p>
+      <span class="sector-tag"><span class="dot"></span>AI-Verified Projects</span>
+    </div>
+    <div class="sector-card reveal d2">
+      <span class="sector-icon">💰</span>
+      <h3 class="sector-name">Financial</h3>
+      <p class="sector-desc">Budgeting, investing, wealth-building. Financial literacy for real life.</p>
+      <span class="sector-tag"><span class="dot"></span>Real Projects</span>
+    </div>
+  </div>
+</section>
+
+<section class="credentials" id="credentials">
+  <div class="credentials-inner">
+    <div class="section-header reveal" style="margin-bottom:0;">
+      <div>
+        <span class="section-eyebrow" style="color:var(--gold);">Credentialing</span>
+        <h2 class="section-title" style="color:var(--cream);">Earn credentials<br>that mean something</h2>
+      </div>
+      <p class="section-sub" style="color:rgba(248,245,239,0.45);">AI and human-verified. Listed in a public directory colleges and employers trust.</p>
+    </div>
+    <div class="credentials-grid">
+      <div class="credential-card reveal">
+        <span class="credential-medal">🥉</span>
+        <h3 class="credential-level">Bronze Scholar</h3>
+        <p class="credential-sub">Foundation</p>
+        <p class="credential-desc">First verified projects across all six sectors. Begin your Vitruvian profile.</p>
+      </div>
+      <div class="credential-card reveal d1">
+        <span class="credential-medal">🥈</span>
+        <h3 class="credential-level">Silver Scholar</h3>
+        <p class="credential-sub">Development</p>
+        <p class="credential-desc">Advanced projects with mentor review. Sustained streaks. Fellowship eligible.</p>
+      </div>
+      <div class="credential-card reveal d2">
+        <span class="credential-medal">🥇</span>
+        <h3 class="credential-level">Gold Scholar</h3>
+        <p class="credential-sub">Mastery</p>
+        <p class="credential-desc">Full curriculum complete. Eligible for the Mukul K. Agarwala Scholarship.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fellowships" id="fellowships">
+  <div class="section-header reveal">
+    <div>
+      <span class="section-eyebrow">Fellowship Tracks</span>
+      <h2 class="section-title">Go deep in what<br>calls to you</h2>
+    </div>
+    <p class="section-sub">All students eligible. Mentor-verified and listed on your credential.</p>
+  </div>
+  <div class="fellowship-pills reveal">
+    <span class="pill">🚀 Entrepreneurship</span>
+    <span class="pill">🔬 Research</span>
+    <span class="pill">🏘️ Community</span>
+    <span class="pill">💻 Technology</span>
+    <span class="pill">🤖 AI Safety</span>
+    <span class="pill">📜 Policy</span>
+    <span class="pill">🎨 Arts & Creative</span>
+    <span class="pill">🌍 Global Impact</span>
+  </div>
+</section>
+
+<section class="waitlist" id="waitlist">
+  <h2 class="waitlist-title reveal">Your ideal self<br>is <em>waiting.</em></h2>
+  <p class="waitlist-sub reveal">Free for every student. Join the pilot waitlist today.</p>
+  <div class="waitlist-form reveal">
+    <input type="email" class="waitlist-input" placeholder="your@email.com" id="emailInput">
+    <button class="waitlist-btn" onclick="handleWaitlist()">Join</button>
+  </div>
+  <p class="waitlist-note reveal">Free forever. No spam. Ever.</p>
+  <p class="waitlist-success" id="successMsg">You're on the list. Welcome to Vitruvian. ✦</p>
+</section>
+
+<footer>
+  <span class="footer-logo">Vitruvian Institute</span>
+  <span class="footer-tagline">Helping youth become their ideal selves</span>
+  <ul class="footer-links">
+    <li><a href="mailto:divya.p.agarwala@gmail.com">Contact</a></li>
+    <li><a href="#sectors">Curriculum</a></li>
+    <li><a href="#waitlist">Join</a></li>
+  </ul>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // animate streak bars
+        entry.target.querySelectorAll('.streak-bar').forEach(bar => {
+          bar.style.width = bar.dataset.width;
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  function handleWaitlist() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+      document.getElementById('emailInput').style.borderColor = '#c0392b';
+      return;
+    }
+    document.querySelector('.waitlist-form').style.display = 'none';
+    document.querySelector('.waitlist-note').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+
+  document.getElementById('emailInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleWaitlist();
+  });
+</script>
+</body>
+</html>
